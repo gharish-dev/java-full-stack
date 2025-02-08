@@ -1,1 +1,56 @@
-I have successfully set up a connection between Eclipse, Apache Tomcat, and a Java EE web application. The process begins by configuring Apache Tomcat in Eclipse as the server runtime, allowing direct deployment of the web application. When a user submits input through the HTML form, an HTTP GET request is sent to the Servlet (AddServlet). The servlet retrieves the input values using request.getParameter(), processes the addition logic, and dynamically generates an HTML response. Apache Tomcat acts as the middleware, handling request routing, servlet execution, and response delivery. This structured connection ensures seamless client-server interaction, enabling real-time data processing. I have done this implementation successfully and can further enhance it with database integration, session management, or API extensions.
+Day 1: eclipse set up:
+Day2: run a addtion by using Servelet 
+    ---> add a server to Web.xml
+   <?xml version="1.0" encoding="UTF-8"?>
+  <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+   <servlet>
+   <servlet-name>abc</servlet-name>
+   <servlet-class>com.telusuko.Adding</servlet-class> 
+   </servlet>
+    </web-app>
+    ----> index.html page:
+           <!DOCTYPE html>
+           <html>
+           <head>
+           <meta charset="UTF-8">
+              <title>Insert title here</title>
+               </head>
+               <body>
+   <form action="add" >
+  Enter 1st value :<input type="text" name="num1"><br>
+  Enter 2st value :<input type="text" name="num2"><br>
+  <input type="submit">
+  
+  </form>
+   </body>
+    </html>
+-------> add.java
+package com.telusuko;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class Adding extends HttpServlet 
+
+{
+         doPost---only works with the post request not with get request
+	      doGet---only works with the get request
+	      service will map if request post then doPost will run else doGet*/
+	    public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException, ServletException {
+		int i=Integer.parseInt(req.getParameter("num1"));
+		int j=Integer.parseInt(req.getParameter("num2"));
+		
+		int k= i+j;
+	
+		
+		/*PrintWriter out=res.getWriter();	
+		out.println(k);
+*/
+
+
