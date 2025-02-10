@@ -1,0 +1,82 @@
+  -----> doPost---only works with the post request not with get request
+	      doGet---only works with the get request
+	      service will map if request post then doPost will run else doGet
+-------> from client side(html.page) will sending request we have to mention  method type:"get / post"
+-->package com.telusuko;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+public class Adding extends HttpServlet 
+
+{
+         /*doPost---only works with the post request not with get request
+	      doGet---only works with the get request
+	      service will map if request post then doPost will run else doGet*/
+	    public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException, ServletException {
+	  	 int i=Integer.parseInt(req.getParameter("num1"));
+		    int j=Integer.parseInt(req.getParameter("num2"));
+		
+		int k= i+j;
+    PrintWriter out=res.getWriter();	
+		out.println(k);
+}
+---->index.html page:
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ 
+  <form action="add" method="get">
+  Enter 1st value :<input type="text" name="num1"><br>
+  Enter 2st value :<input type="text" name="num2"><br>
+  <input type="submit">
+  
+  </form>
+</body>
+</html>
+
+----> create another(square class) class and called it from addingclass.
+-----> using by RequestDispatcher
+     request ---> sending request data to square objects
+		 req.setAttribute("k",k);
+		// Request Dispatcher is way dispatch one server from Servelet( same object is used)
+		RequestDispatcher sc=req.getRequestDispatcher("sq");
+		sc.forward(req,res);
+------> square.class 
+package com.telusuko;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+public class Square extends HttpServlet {
+ 
+	public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException {
+		
+		/*int k=(int) req.getAttribute("k");	
+		PrintWriter out=res.getWriter();	
+		out.println("hello i am in square" );
+		System.out.println("sqaure is called");*/
+}
+}
+
+====================================================End======================================================================
+
+
