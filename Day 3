@@ -1,0 +1,220 @@
+---->send request from client then we get response from server this will happen beascuase  Url-rewrite 
+      send Redirect used  s1---->s2(differnt object)
+		  Redirect implement by session management
+		  here were are changing the url it is called Url-rewriting...
+		  res.sendRedirect("sq?k="+k);
+      ------------------------------------------------->>>>>>>> import it in another class(Square class)
+      get data from parameter
+	   	int k=Integer.parseInt(req.getParameter("k"));
+		
+		   k=k*k;
+		
+		   PrintWriter out=res.getWriter();
+			
+		   out.println("hello i am in sq"+ k)*/
+ 
+-----> using session
+      Session ---> is given by tomcat hold value we can use any serverlet when we require
+	    HttpSession session =req.getSession();
+	    session.setAttribute("k", k);
+	    res.sendRedirect("sq");
+       ------------------------------------------------------->>>>>>> import it from  sqare class
+        * 
+	    	HttpSession session =req.getSession();
+		
+		   int k=(int)session.getAttribute("k");
+		
+		   k=k*k;
+		
+		   PrintWriter out=res.getWriter();
+			
+		    out.println("hello i am in sq"+ k);
+		     //  Session Remove
+		    session.removeAttribute("k")
+----->cookies calling in square 
+      Cookies ---> when we send request to server then server send a response a object. 
+		  then object contains a cookie 
+		 example:
+		       when you in bus you  have 100 but price is 60 then 40  back to you.
+		       the conductor write remaining balance(40) in ticket. before you get off from bus 
+		       you give ticket to conductor then he will find based on ticket
+		       if----on the ticket he write remaining balance he will give back to you.
+      Cookie cookie=new Cookie("k",k +"");// cookie only take String so ----> k+"" used
+		  res.addCookie(cookie);
+		  res.sendRedirect("sq");
+       ------------------------------------------------------------->>>>>>>>>  
+        int k = 0;
+
+        // Retrieve cookies
+        Cookie[] cookies = req.getCookies();// cookie present i array format
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("k")) {  // Correct way to check cookie name
+                    k = Integer.parseInt(c.getValue());
+                    break;  // Exit loop once the required cookie is found
+                }
+            }
+        }
+
+        k = k * k;
+
+       // res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        out.println("<h1>Hello, I am in Square Servlet. Result: " + k + "</h1>");
+		
+		------------------------------------------------------------------------------------ java codes---------------------------------------------------------
+    >>>>>>addition .java 
+       package com.telusuko;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+public class Adding extends HttpServlet 
+
+{
+         /*doPost---only works with the post request not with get request
+	      doGet---only works with the get request
+	      service will map if request post then doPost will run else doGet*/
+	    public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException, ServletException {
+		int i=Integer.parseInt(req.getParameter("num1"));
+		int j=Integer.parseInt(req.getParameter("num2"));
+		
+		int k= i+j;
+		
+		
+	
+		
+		//PrintWriter out=res.getWriter();	
+		//out.println(k);
+		
+		// request ---> sending request data to square objects
+		//req.setAttribute("k",k);
+		// Request Dispatcher is way dispatch one server from Servelet( same object is used)
+		//RequestDispatcher sc=req.getRequestDispatcher("sq");
+		//sc.forward(req,res);
+		
+		
+		// send Redirect used  s1---->s2(differnt object)
+		// Redirect implement by session management
+		// here were are changing the url it is called Url-rewriting...
+		//res.sendRedirect("sq?k="+k);
+		
+		
+		// Session ---> is given by tomcat hold value we can use any serverlet when we require
+	   /* HttpSession session =req.getSession();
+	    session.setAttribute("k", k);
+	    res.sendRedirect("sq");*/
+		
+		
+		
+		/* Cookies ---> when we send request to server then server send a response a object. 
+		 then object contains a cookie
+		 
+		 example:
+		       when you in bus you  have 100 but price is 60 then 40  back to you.
+		       the conductor write remaining balance(40) in ticket. before you get off from bus 
+		       you give ticket to conductor then he will find based on ticket
+		       if----on the ticket he write remaining balance he will give back to you.
+		       
+		   
+		 
+		 */
+		  Cookie cookie=new Cookie("k",k +"");// cookie only take String so ----> k+"" used
+		  res.addCookie(cookie);
+		  res.sendRedirect("sq");
+		
+	    
+	    
+		
+	}
+	
+}
+---------------------------------------------------------------- Square  classs--------------------------------------------------------------------------------
+>>>>> square classs
+package com.telusuko;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+public class Square extends HttpServlet {
+ 
+	public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException {
+		
+		/*int k=(int) req.getAttribute("k");	
+		PrintWriter out=res.getWriter();	
+		out.println("hello i am in square" );
+		System.out.println("sqaure is called");*/
+		
+		
+		
+		/*get data from parameter
+		int k=Integer.parseInt(req.getParameter("k"));
+		
+		k=k*k;
+		
+		PrintWriter out=res.getWriter();
+			
+		out.println("hello i am in sq"+ k)*/
+		
+		
+		/* Get Data using Session
+		 * 
+		HttpSession session =req.getSession();
+		
+		int k=(int)session.getAttribute("k");
+		
+		k=k*k;
+		
+		PrintWriter out=res.getWriter();
+			
+		out.println("hello i am in sq"+ k);
+		 Session Remove
+		 session.removeAttribute("k")*/
+		
+		
+		
+		//  cookies calling in square 
+		 int k = 0;
+
+        // Retrieve cookies
+        Cookie[] cookies = req.getCookies();// cookie present i array format
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("k")) {  // Correct way to check cookie name
+                    k = Integer.parseInt(c.getValue());
+                    break;  // Exit loop once the required cookie is found
+                }
+            }
+        }
+
+        k = k * k;
+
+       // res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        out.println("<h1>Hello, I am in Square Servlet. Result: " + k + "</h1>");
+		
+		
+		
+	}
+	
+}
+
+
+		       
+		   
+		 
+		 
