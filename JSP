@@ -1,0 +1,216 @@
+SP (JavaServer Pages) – Full Guide
+JSP (JavaServer Pages) is a Java-based technology used for building dynamic web pages. It extends the Servlet API and allows embedding Java code within HTML. JSP is commonly used in MVC-based Java web applications.
+
+1. JSP vs Servlets
+Feature	JSP	Servlets
+Syntax	HTML + Java	Pure Java
+Readability	Easier (mixes HTML & Java)	Harder (only Java)
+Performance	Slightly slower (converted to Servlets)	Faster
+Use Case	View layer (UI)	Controller layer (Processing)
+JSP pages are internally converted into Servlets by the container before execution.
+
+2. JSP Lifecycle
+A JSP page goes through the following phases:
+
+Translation → JSP is converted into a Servlet.
+Compilation → The Servlet is compiled into a .class file.
+Initialization → jspInit() is called once.
+Execution → jspService(request, response) handles client requests.
+Destruction → jspDestroy() is called before unloading.
+3. JSP Directives
+Directives provide global settings for the JSP page.
+
+a) Page Directive (<%@ page %>)
+Used to set attributes like content type, import Java classes, session, etc.
+
+jsp
+Copy
+Edit
+<%@ page language="java" contentType="text/html" import="java.util.*" session="true" %>
+Common attributes:
+
+import="java.util.*" → Imports Java packages
+session="true" → Enables session tracking
+contentType="text/html" → Defines response type
+b) Include Directive (<%@ include %>)
+Used to include a static file at compile time.
+
+jsp
+Copy
+Edit
+<%@ include file="header.jsp" %>
+c) Taglib Directive (<%@ taglib %>)
+Used to include custom JSTL (JSP Standard Tag Library) tags.
+
+jsp
+Copy
+Edit
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+4. JSP Scripting Elements
+JSP allows embedding Java code using scripting elements.
+
+a) Declaration (<%! %>)
+Used for defining variables and methods.
+
+jsp
+Copy
+Edit
+<%! int counter = 0; %>
+<%! public int increment() { return ++counter; } %>
+b) Scriptlet (<% %>)
+Used for writing Java code inside JSP.
+
+jsp
+Copy
+Edit
+<%
+   int number = 10;
+   out.println("Number: " + number);
+%>
+c) Expression (<%= %>)
+Used for outputting values in JSP.
+
+jsp
+Copy
+Edit
+<h1>Current Time: <%= new java.util.Date() %></h1>
+5. JSP Implicit Objects
+JSP provides 9 built-in objects that can be used without declaration.
+
+Object	Description
+request	Represents HttpServletRequest
+response	Represents HttpServletResponse
+session	Manages user session
+application	Global context object
+out	Prints output to the page
+config	Servlet configuration
+pageContext	Provides access to page-level information
+page	Refers to current JSP page
+exception	Handles exceptions
+Example:
+
+jsp
+Copy
+Edit
+<%
+    String username = request.getParameter("name");
+    out.println("Hello, " + username);
+%>
+6. JSP Standard Tag Library (JSTL)
+JSTL simplifies JSP development by replacing Java code with custom tags.
+
+a) Core Tags (c:out, c:if, c:forEach)
+Example: Looping with forEach
+
+jsp
+Copy
+Edit
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:forEach var="i" begin="1" end="5">
+    <p>Iteration: ${i}</p>
+</c:forEach>
+7. JSP Sessions
+JSP uses HttpSession to track user sessions.
+
+Session Example
+Storing Data:
+
+jsp
+Copy
+Edit
+<%
+   session.setAttribute("user", "Harish");
+%>
+Retrieving Data:
+
+jsp
+Copy
+Edit
+<%
+   String user = (String) session.getAttribute("user");
+   out.println("Welcome, " + user);
+%>
+8. JSP Form Handling
+JSP processes form data using request.getParameter().
+
+Form Example
+HTML Form (index.jsp)
+jsp
+Copy
+Edit
+<form action="welcome.jsp" method="post">
+    Name: <input type="text" name="name">
+    <input type="submit">
+</form>
+Processing in JSP (welcome.jsp)
+jsp
+Copy
+Edit
+<%
+   String name = request.getParameter("name");
+   out.println("Welcome, " + name);
+%>
+9. Error Handling in JSP
+JSP supports error pages using the errorPage directive.
+
+Example
+Main JSP Page (index.jsp)
+jsp
+Copy
+Edit
+<%@ page errorPage="error.jsp" %>
+<%
+   int result = 10 / 0; // This will cause an error
+%>
+Error Page (error.jsp)
+jsp
+Copy
+Edit
+<%@ page isErrorPage="true" %>
+<h2>Error Occurred: <%= exception.getMessage() %></h2>
+10. JSP CRUD with MySQL
+A simple JSP + MySQL example.
+
+Database Configuration (db.jsp)
+jsp
+Copy
+Edit
+<%@ page import="java.sql.*" %>
+<%
+   Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "password");
+   Statement stmt = con.createStatement();
+%>
+Insert Data (insert.jsp)
+jsp
+Copy
+Edit
+<%@ include file="db.jsp" %>
+<%
+   String name = request.getParameter("name");
+   stmt.executeUpdate("INSERT INTO users (name) VALUES ('" + name + "')");
+   out.println("User inserted successfully!");
+%>
+Retrieve Data (users.jsp)
+jsp
+Copy
+Edit
+<%@ include file="db.jsp" %>
+<%
+   ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+   while (rs.next()) {
+       out.println("User: " + rs.getString("name") + "<br>");
+   }
+%>
+11. Deployment (WAR File & Tomcat Server)
+Convert JSP project to WAR file (myapp.war)
+Deploy in Apache Tomcat (webapps/)
+Start Tomcat and access http://localhost:8080/myapp
+12. Alternatives to JSP
+Spring Boot (Thymeleaf, React, Angular)
+JavaScript (Node.js, Express)
+JSF (JavaServer Faces)
+Conclusion
+JSP is useful for building dynamic Java-based web applications. However, modern frameworks like Spring Boot, React, and Angular offer better alternatives for web development.
+
+Would you like an example of JSP with Spring Boot integration? 🚀
