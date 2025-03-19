@@ -1,0 +1,11 @@
+Day1------>
+
+Hibernate is used to interact with relational databases in Java applications, making it easier to manage database operations using objects instead of SQL queries. It helps with features like:
+---ORM MODEL
+Automatic Table Mapping
+HQL (Hibernate Query Language)
+Caching Mechanism
+Transaction Management
+Lazy and Eager Fetching
+
+
